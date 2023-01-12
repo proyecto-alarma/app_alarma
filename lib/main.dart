@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:project/src/core/shared/local_notifications.dart';
 import 'package:project/src/core/shared/notifications.dart';
+import 'package:project/src/core/shared/preferences/preferences.dart';
 import 'package:project/src/ui/pages/home_page.dart';
 
 import 'src/ui/pages/login/login_page.dart';
@@ -10,7 +11,7 @@ import 'src/ui/pages/login/login_page.dart';
 final not = NotificationService();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  PreferencesClass.init();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
     apiKey: 'AIzaSyCxGYb73mwjQkbm1mDGPgXTSq73HMjKLTs',
