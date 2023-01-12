@@ -169,6 +169,12 @@ class _LoginPageState extends State<LoginPage> {
                             email: _emailCtrl.text,
                           );
                           if (result) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const HomePageDart()),
+                              (route) => false,
+                            );
                           } else {
                             alerDialo(
                               context: context,

@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:project/src/config/theme/theme.dart';
+import 'package:project/src/core/errors/erros.dart';
+import 'package:project/src/core/shared/emtters.dart';
+import 'package:project/src/provider/user_provider.dart';
+import 'package:project/src/ui/views/alert_dialog.dart';
+import 'package:project/src/ui/views/loadin.dart';
+import 'package:project/src/ui/widgets/button_widget.dart';
+import 'package:project/src/ui/widgets/input_widget.dart';
 
 class AddCollaborators extends StatefulWidget {
   const AddCollaborators({super.key});
@@ -9,85 +17,101 @@ class AddCollaborators extends StatefulWidget {
 
 class _AddCollaboratorsState extends State<AddCollaborators> {
   late Size _size;
+  final _nameCtrl = TextEditingController();
+  final _emailCtrl = TextEditingController();
+  final _colProvider = UserProvider();
   @override
   Widget build(BuildContext context) {
     _size = MediaQuery.of(context).size;
-    return Column(
+    return Stack(
       children: [
-        SizedBox(
-          height: _size.height * .04,
-        ),
-        Center(
-          child: Image.asset(
-            "assets/colaborator.png",
-          ),
-        ),
-        Center(
-          child: Text('Agregar colaborador'),
-        ),
-        SizedBox(
-          height: _size.height * .03,
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          child: Text("Nombre"),
-        ),
-        SizedBox(
-          height: _size.height * .01,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(),
-            borderRadius: BorderRadius.circular(
-              5,
+        Column(
+          children: [
+            SizedBox(
+              height: _size.height * .04,
             ),
-          ),
-          child: const TextField(
-            decoration: InputDecoration(
-              border: InputBorder.none,
+            Center(
+              child: Image.asset(
+                "assets/colaborator.png",
+              ),
             ),
-          ),
-        ),
-        SizedBox(
-          height: _size.height * .02,
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          child: Text("Telefono"),
-        ),
-        SizedBox(
-          height: _size.height * .01,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(),
-            borderRadius: BorderRadius.circular(
-              5,
+            Center(
+              child: Text(
+                'Agregar colaborador',
+                style: TextStyle(
+                  color: purple2Color,
+                  fontSize: _size.height * .03,
+                ),
+              ),
             ),
-          ),
-          child: const TextField(
-            decoration: InputDecoration(
-              border: InputBorder.none,
+            SizedBox(
+              height: _size.height * .03,
             ),
-          ),
-        ),
-        SizedBox(
-          height: _size.height * .06,
-        ),
-        Container(
-          width: _size.width * .4,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          padding: const EdgeInsets.all(8),
-          child: const Text(
-            "Agregar",
-            style: TextStyle(
-              color: Colors.white,
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Nombre",
+                style: TextStyle(
+                  color: blueColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
-          ),
+            InputWidget(
+              controller: _nameCtrl,
+            ),
+            SizedBox(
+              height: _size.height * .02,
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Correo eletronico",
+                style: TextStyle(
+                  color: blueColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            InputWidget(
+              controller: _emailCtrl,
+            ),
+            SizedBox(
+              height: _size.height * .06,
+            ),
+            ButtomWiget(
+              action: () async {
+                if (_emailCtrl.text.isEmpty || _nameCtrl.text.isEmpty) {
+                  alerDialo(
+                    context: context,
+                    txt: "Por favor, llena todos los campos.",
+                  );
+                  return;
+                }
+                loadingE.add(true);
+                final result = await _colProvider.addCollaborator(
+                  name: _nameCtrl.text,
+                  email: _emailCtrl.text,
+                );
+                if (result) {
+                  _emailCtrl.clear();
+                  _nameCtrl.clear();
+                  alerDialo(
+                    context: context,
+                    txt: "Colaborador agregado con éxito.",
+                  );
+                } else {
+                  alerDialo(
+                    context: context,
+                    txt: getError,
+                  );
+                }
+                loadingE.add(false);
+              },
+              txt: "Agregar",
+              w: _size.width * .4,
+            ),
+          ],
         ),
       ],
     );

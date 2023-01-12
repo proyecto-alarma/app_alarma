@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:project/src/ui/pages/collaborators/add_collaborators.dart';
 import 'package:project/src/ui/pages/collaborators/collaboators_page.dart';
 import 'package:project/src/ui/pages/home/home_page.dart';
+import 'package:project/src/ui/views/loadin.dart';
+
+import '../../core/shared/emtters.dart';
 
 class HomePageDart extends StatefulWidget {
   const HomePageDart({super.key});
@@ -18,19 +21,33 @@ class _HomePageDartState extends State<HomePageDart> {
     _size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          margin: EdgeInsets.symmetric(
-            horizontal: _size.width * .04,
-          ),
-          child: FutureBuilder(
-            future: _currentPage(),
-            builder: (_, snp) {
-              if (!snp.hasData) {
-                return const SizedBox();
-              }
-              return snp.data!;
-            },
-          ),
+        body: Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: _size.width * .04,
+              ),
+              child: FutureBuilder(
+                future: _currentPage(),
+                builder: (_, snp) {
+                  if (!snp.hasData) {
+                    return const SizedBox();
+                  }
+                  return snp.data!;
+                },
+              ),
+            ),
+            StreamBuilder<bool>(
+                stream: getStream,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return SizedBox();
+                  }
+                  return snapshot.data!
+                      ? const LoadingView()
+                      : const SizedBox();
+                }),
+          ],
         ),
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index) {
