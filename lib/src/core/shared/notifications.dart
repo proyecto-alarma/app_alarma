@@ -3,10 +3,7 @@ import 'dart:developer';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:volume_controller/volume_controller.dart';
-
-import '../../../main.dart';
 
 class Notifications {
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;

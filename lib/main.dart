@@ -5,6 +5,8 @@ import 'package:project/src/core/shared/local_notifications.dart';
 import 'package:project/src/core/shared/notifications.dart';
 import 'package:project/src/ui/pages/home_page.dart';
 
+import 'src/ui/pages/login/login_page.dart';
+
 final not = NotificationService();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,10 +48,9 @@ class _MyAppState extends State<MyApp> {
       title: 'Material App',
       home: NotificationListener<MyNotification>(
         onNotification: (MyNotification notification) {
-          print("Bubble");
           return true;
         },
-        child: HomePageDart(),
+        child: const LoginPage(),
       ),
     );
   }
