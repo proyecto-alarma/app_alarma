@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project/src/models/users_model.dart';
 import 'package:project/src/provider/user_provider.dart';
 
+import '../../../config/theme/theme.dart';
+
 class CollaboratorPage extends StatefulWidget {
   const CollaboratorPage({super.key});
 
@@ -37,14 +39,24 @@ class _CollaboratorPageState extends State<CollaboratorPage> {
             "assets/colaborator.png",
           ),
         ),
-        Center(
+        const Center(
           child: Text('Colaboradores'),
         ),
         FutureBuilder<UsersModel>(
             future: _future,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return const CircularProgressIndicator();
+                return Center(
+                  child: SizedBox(
+                    height: 90,
+                    width: 90,
+                    child: CircularProgressIndicator(
+                      color: purple1Color,
+                      strokeWidth: 10,
+                      backgroundColor: purple2Color,
+                    ),
+                  ),
+                );
               }
               final list = snapshot.data!.data ?? [];
               return SizedBox(
@@ -66,52 +78,50 @@ class _CollaboratorPageState extends State<CollaboratorPage> {
   Widget _itemColaborrator({
     required Datum datum,
   }) =>
-      datum.role == "ADMIN"
-          ? const SizedBox()
-          : Container(
-              margin: EdgeInsets.only(
-                top: _size.height * .02,
-                left: _size.width * .03,
-                right: _size.width * .03,
-              ),
-              width: _size.width * .8,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Color.fromRGBO(
-                        0,
-                        0,
-                        0,
-                        .25,
-                      ),
-                      offset: Offset(0, 2),
-                      blurRadius: 4,
-                      spreadRadius: 0),
+      Container(
+        margin: EdgeInsets.only(
+          top: _size.height * .02,
+          left: _size.width * .03,
+          right: _size.width * .03,
+        ),
+        width: _size.width * .8,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5),
+          boxShadow: const [
+            BoxShadow(
+                color: Color.fromRGBO(
+                  0,
+                  0,
+                  0,
+                  .25,
+                ),
+                offset: Offset(0, 2),
+                blurRadius: 4,
+                spreadRadius: 0),
+          ],
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    datum.name!,
+                  ),
+                  Text(
+                    datum.email!,
+                  ),
                 ],
               ),
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          datum.name!,
-                        ),
-                        Text(
-                          datum.email!,
-                        ),
-                      ],
-                    ),
-                    Icon(
-                      Icons.delete_outline,
-                    )
-                  ],
-                ),
-              ),
-            );
+              Icon(
+                Icons.delete_outline,
+              )
+            ],
+          ),
+        ),
+      );
 }

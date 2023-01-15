@@ -1,10 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:project/src/core/shared/local_notifications.dart';
 import 'package:project/src/core/shared/notifications.dart';
 import 'package:project/src/core/shared/preferences/preferences.dart';
-import 'package:project/src/ui/pages/home_page.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'src/ui/pages/login/login_page.dart';
 
@@ -45,6 +46,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    Intl.defaultLocale = 'es';
+    initializeDateFormatting(
+      'az',
+    );
     return MaterialApp(
       title: 'Material App',
       home: NotificationListener<MyNotification>(

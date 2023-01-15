@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
+// ignore: non_constant_identifier_names
 UsersModel? UsersModelFromJson(String str) =>
     UsersModel.fromJson(json.decode(str));
 
+// ignore: non_constant_identifier_names
 String UsersModelToJson(UsersModel? data) => json.encode(data!.toJson());
 
 class UsersModel {

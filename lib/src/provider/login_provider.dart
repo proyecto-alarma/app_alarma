@@ -6,9 +6,11 @@ import 'package:project/src/core/shared/preferences/preferences.dart';
 
 import '../core/errors/erros.dart';
 import '../models/login_model.dart';
+import 'user_provider.dart';
 
 class LoginProvider {
   final _dio = Dio();
+  final _userProvider = UserProvider();
 
   Future<bool> login({
     required String pass,
@@ -30,6 +32,7 @@ class LoginProvider {
       if (loginModel.data!.token!.isNotEmpty) {
         status = true;
         PreferencesClass.setString("token", loginModel.data!.token!);
+        _userProvider.updateUser();
       } else {
         setErrMesage = loginModel.message!;
       }

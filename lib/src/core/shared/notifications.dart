@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:project/src/core/shared/preferences/preferences.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 class Notifications {
@@ -47,7 +48,8 @@ class Notifications {
       provisional: true,
       sound: true,
     );
-    log("${await firebaseMessaging.getToken()}");
+    final tokenDevice = await firebaseMessaging.getToken();
+    PreferencesClass.setString("tokendevice", tokenDevice.toString());
     FirebaseMessaging.onBackgroundMessage(_background);
     FirebaseMessaging.onMessage.listen(_onbackground);
     FirebaseMessaging.onMessageOpenedApp.listen(abirMessage);

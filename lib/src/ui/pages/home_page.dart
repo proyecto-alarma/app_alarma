@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/src/ui/pages/collaborators/add_collaborators.dart';
 import 'package:project/src/ui/pages/collaborators/collaboators_page.dart';
 import 'package:project/src/ui/pages/home/home_page.dart';
+import 'package:project/src/ui/pages/reports/reports_page.dart';
 import 'package:project/src/ui/views/loadin.dart';
 
 import '../../core/shared/emtters.dart';
@@ -41,7 +42,7 @@ class _HomePageDartState extends State<HomePageDart> {
                 stream: getStream,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return SizedBox();
+                    return const SizedBox();
                   }
                   return snapshot.data!
                       ? const LoadingView()
@@ -83,13 +84,6 @@ class _HomePageDartState extends State<HomePageDart> {
               ),
               label: "",
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                (Icons.settings),
-                color: Colors.red,
-              ),
-              label: "",
-            ),
           ],
         ),
       ),
@@ -99,19 +93,14 @@ class _HomePageDartState extends State<HomePageDart> {
   Future<Widget> _currentPage() async {
     switch (_currentIndex) {
       case 0:
-        return HomePage();
+        return const HomePage();
       case 1:
-        return CollaboratorPage();
+        return const CollaboratorPage();
       case 2:
-        return AddCollaborators();
+        return const AddCollaborators();
       case 3:
-        return SizedBox(
-          child: Text("3"),
-        );
-      case 4:
-        return SizedBox(
-          child: Text("4"),
-        );
+        return const ReportPage();
+
       default:
         return const SizedBox();
     }
